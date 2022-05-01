@@ -1,23 +1,29 @@
 import {
-      Alert,
-      AlertIcon,
+      Alert,AlertIcon,
       Box, Button, ButtonGroup,
       Flex, FormControl, Icon, Input, InputGroup,
-      InputLeftElement, Radio, RadioGroup,
-      Stack,
-      Text,
-      useColorModeValue
+      InputLeftElement, Radio, RadioGroup, Select,
+      Stack,Text,useColorModeValue
 } from '@chakra-ui/react'
 
 import { CgArrowLeft, CgArrowRight } from 'react-icons/cg';
 
-import React, { useState } from 'react'
+import React, { useEffect, useId, useState } from 'react'
 import RowCharacter from '../components/RowCharacter'
 
 const Advanced = () => {
       const [result, setResult] = useState(false)
-      const [nameCharacter, setnameCharacter] = useState({ status: "" })
+      const [search, setSearch] = useState({ status: "",name:"",gender:"",specie:"" })
+      const {name,status,gender,specie} = search
       const [error, setError] = useState('')
+
+      let species = [
+            "Human", "Alien", "Humanoid",
+            "Poopybutthole", "Mythological", "Unknown",
+            "Animal", "Disease","Robot","Cronenberg","Planet",
+          ];
+
+      let genders = ["female", "male", "genderless", "unknown"];
 
       const bg = useColorModeValue('white', 'gray.800')
       const color = useColorModeValue('black', 'white')
@@ -28,37 +34,31 @@ const Advanced = () => {
                   .then(({ results, info }) => setResult({ results, info }))
       }
 
-      const handleSubmit = (e) => {
-            e.preventDefault();
-
-            /* if (nameCharacter.name?.length <= 3) {
-                  setResult(false)
-                  setError("nombre muy corto")
-            } */
-
-            if (!nameCharacter.name) {
-                  setError("ingrese un nombre")
-                  setResult(false)
+      useEffect(() => {
+            
+            if ((!name && !status && !gender && !specie )){
+                  setResult({results:[]})
                   return
             }
 
+            const url = `https://rickandmortyapi.com/api/character/?name=${search.name}&status=${search.status}&gender=${search.gender}&species=${specie}`
+            fetch(url)
+            .then(res => res.ok ? res.json() : Promise.reject("character not found"))
+            .then(({ info, results }) => setResult({ results, info }))
+            .catch(err => {
+                  setError(err)
+                  setResult({})
 
-            fetch(`https://rickandmortyapi.com/api/character/?name=${nameCharacter.name}&status=${nameCharacter.status}`)
-                  .then(res => res.ok ? res.json() : Promise.reject("character not found"))
-                  .then(({ info, results }) => setResult({ results, info }))
-                  .catch(err => {
-                        setError(err)
-                        setResult({})
-                        setTimeout(() => {
-                              setError('')
-                        }, 4000);
-                  }
-                  )
-      }
-
+                  setTimeout(() => {
+                  setError('')
+                  }, 4000);
+            }
+            )
+      }, [name,status,gender,specie])
+      
       return (
             <Box width="100%" h="100%" flexGrow="1" px="4" bg={bg} color={color}>
-                  <FormControl as="form" onSubmit={handleSubmit} w={[, "50%", "25%"]}>
+                  <FormControl as="form" w={[, "50%", "25%"]}>
                         <InputGroup mt="2">
                               <InputLeftElement pointerEvents='none' children='🔍' />
                               <Input type='text'
@@ -68,23 +68,37 @@ const Advanced = () => {
                                     borderWidth="2px"
                                     borderColor="cyan.700"
                                     name='name'
-                                    onChange={(e) => {
-                                          setnameCharacter({ ...nameCharacter, name: e.target.value })
-                                    }
-                                    } />
+                                  /*   onKeyDown={(e) => setSearch({ ...search, name: e.target.value })} */
+                                    onChange={(e) => setSearch({ ...search, name: e.target.value })}
+                                    />
 
                         </InputGroup>
                         <Text as="label" fontSize="medium" fontWeight="semibold">status:</Text>
                         <RadioGroup>
                               <Stack direction='row'
-                                    onChange={(e) => setnameCharacter({ ...nameCharacter, status: e.target.value })}>
+                                    onChange={(e) => setSearch({ ...search, status: e.target.value })}>
                                     <Radio value='' defaultChecked>all</Radio>
                                     <Radio value='alive'>alive</Radio>
                                     <Radio value='dead'>dead</Radio>
                                     <Radio value='unknown'>unknown</Radio>
                               </Stack>
+
+
                         </RadioGroup>
-                        <Button mt={4} colorScheme='teal' type='submit'> Submit </Button>
+                        <Text as="label" fontSize="medium" fontWeight="semibold">gender:</Text>
+                        <RadioGroup>
+                              <Stack direction='row'
+                                    onChange={(e) => setSearch({ ...search, gender: e.target.value })}>
+                                    <Radio value='' defaultChecked>all</Radio>
+                                    {genders.map(gender => <Radio value={gender} key={useId()}>{gender}</Radio>)}
+                              </Stack>
+                        </RadioGroup>
+                        <Text as="label" fontSize="medium" fontWeight="semibold">specie:</Text>
+                        <Select size='sm' placeholder='select specie' onChange={(e) => setSearch({...search,specie:e.target.value})}>
+                            {/*   <option disabled selected>select specie</option> */} 
+                              {species.map(specie => <option value={specie} key={useId()}>{specie}</option>)}
+                        </Select>
+                       {/*  <Button mt={4} colorScheme='teal' type='submit'> Submit </Button> */}
                   </FormControl>
 
                   {error && <Alert status='error' mt={4}><AlertIcon />{error}</Alert>}
@@ -101,6 +115,7 @@ const Advanced = () => {
                                     <Icon as={CgArrowRight} w="8" h="8" />
                               </Button>}
                   </ButtonGroup>
+
                   <Flex direction="column" mb="4" rowGap="4">
                         {result.results && result.results.map((character) => <RowCharacter character={character} key={character.id} />)}
                         {result.info && <p>total: {result.info.count}</p>}

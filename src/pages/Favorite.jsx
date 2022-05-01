@@ -2,15 +2,18 @@ import { Alert, AlertIcon, Box, VStack } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
 import RowCharacter from '../components/RowCharacter'
 
+import { getLocalstorage,setLocalstorage} from '../helpers/localstprage'
+
 
 const Favorite = () => {
-  const getLocalstorage = JSON.parse(localStorage.getItem("favorites")) || []
-  const [favorites, setFavorites] = useState(getLocalstorage)
+  const getLocal = getLocalstorage("favorites") || []
+  const [favorites, setFavorites] = useState(getLocal)
   const [charactersId, setCharactersId] = useState([])
 
   const removeToLocalstorage = (characterId) =>{
     const filted = favorites.filter(id => id != characterId)
-    localStorage.setItem("favorites",JSON.stringify(filted))
+    setLocalstorage("favorites",filted)
+
     setFavorites(filted)
 
     const viewfilted = charactersId.filter(character => character.id !== characterId)
@@ -18,7 +21,7 @@ const Favorite = () => {
 }
 
   useEffect(() => {
-    localStorage.setItem("favorites", JSON.stringify(favorites))
+    setLocalstorage("favorites", favorites)
 }, [favorites])
 
 useEffect(() => {

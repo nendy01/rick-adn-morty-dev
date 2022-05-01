@@ -1,18 +1,20 @@
 import { Badge, Box, Center, Grid, Heading, Image, Text } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
 
+import {getLocalstorage,setLocalstorage} from '../helpers/localstprage'
+
 
 //console.log(getLocalstorage);
 const OnlyCharacter = ({ character }) => {
-      const getLocalstorage = JSON.parse(localStorage.getItem("favorites")) || []
-      const [favorites, setFavorites] = useState(getLocalstorage)
+      const getLocal = getLocalstorage("favorites") || []
+      const [favorites, setFavorites] = useState(getLocal)
       const [isfavorite, setIsfavorite] = useState(false)
 
       const { image, name, gender, status, location: { name: locationName }, species, type, id, created } = character
 
       const addToLocalstorage = (characterId) => {
 
-            const cosa = JSON.parse(localStorage.getItem("favorites"))
+            const cosa = getLocalstorage("favorites")
 
             if (cosa.includes(characterId)) {
                   setIsfavorite(true)
@@ -25,12 +27,12 @@ const OnlyCharacter = ({ character }) => {
       const removeToLocalstorage = (characterId) =>{
             setIsfavorite(false)
             const filted = favorites.filter(id => id != characterId)
-            localStorage.setItem("favorites",JSON.stringify(filted))
+            setLocalstorage("favorites",filted)
             setFavorites(filted)
       }
 
       useEffect(() => {
-            localStorage.setItem("favorites", JSON.stringify(favorites))
+            setLocalstorage("favorites", favorites)
       }, [favorites])
 
       useEffect(() => {
