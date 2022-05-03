@@ -1,7 +1,7 @@
-import { Box, Button, Flex, Icon, useColorMode, useColorModeValue,Spacer } from "@chakra-ui/react";
+import { Box, Button, Flex, Icon, useColorMode, useColorModeValue, Spacer } from "@chakra-ui/react";
 import React from "react";
 import { Link } from "react-router-dom";
-import { CgSun,CgMoon } from 'react-icons/cg';
+import { CgSun, CgMoon } from 'react-icons/cg';
 
 import { Link as LinkChacra } from "@chakra-ui/react";
 
@@ -19,28 +19,29 @@ const Header = () => {
                   align="center"
                   bg={bg}
                   py={["2", , "4"]}
-                  px={["4", , "8"]}
+                  px={[, , "8"]}
                   borderBottomWidth="4px"
-                  borderBottomColor="cyan.700"
+                  borderBottomColor="cyan.700">
 
-            >
-                  <LinkChacra as={Link} to="/" fontSize="3xl" color={color} fontWeight="bold">
-                        Rick and Morty
-                  </LinkChacra>
+                  <Flex gap={2} align="center">
 
-                  <Flex direction="column" /* w={["100%",,"30%"]}*/ alignSelf={["center",,,"flex-end"]}>
+                        <LinkChacra as={Link} to="/" fontSize="3xl" color={color} fontWeight="bold">
+                              Rick and Morty
+                        </LinkChacra>
+                        <Box onClick={toggleColorMode} mt="2" h="6" >
+                              {colorMode === 'light' ?
+                                    <Icon as={CgMoon} w="6" h="6" /> : <Icon as={CgSun} w="6" h="6" />}
+                        </Box>
+                  </Flex>
 
-                        <Flex as="nav" gap={4}>
-                              <Link to="/characters" d="inline-block">characters</Link>
+                  <Flex direction="column">
+
+                        <Flex as="nav" gap={2} fontWeight="semibold" >
+                              <Link to="/characters">characters</Link>
                               <Link to="/about">about</Link>
                               <Link to="/favorite">favorite</Link>
                               <Link to="/advanced">advanced</Link>
                         </Flex>
-
-                        <Box onClick={toggleColorMode} mt="2" h="6" alignSelf="flex-end">
-                              {colorMode === 'light' ? 
-                              <Icon as={CgMoon} w="6" h="6"/> : <Icon as={CgSun} w="6" h="6"/> }
-                        </Box>
 
                   </Flex>
             </Flex>

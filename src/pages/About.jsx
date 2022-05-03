@@ -11,23 +11,21 @@ const About = () => {
   return (
     <Flex flexGrow="1" p="10" bg={bg} color={color} direction="column">
       <Heading as="h2" mb="10">About us</Heading>
-      <Box w={["90%", , "50%"]}>
-      <Text >Lorem ipsum dolor sit amet consectetur adipisicing elit.
-      </Text>
+      <Flex w={["90%", , "50%"]} gap="4" direction="column" fontSize="1.2rem">
+      <Text >Rick and Morty wiki, created with love.</Text>
 
 
-      <Text my="4">
-        Officia, cupiditate. Quod vitae sint voluptatem impedit,
-        est eos pariatur blanditiis quo optio expedita ipsa tenetur
-        eius fugiat in, eligendi, earum quos quam perferendis quas architecto.
+      <Text >
+        This is a rick and morty wiki where we have different types of searches
+          such as page search searches, name, gender, species, status.
       </Text>
 
-      <Text mb="4">
-        Velit quia non placeat ab dolor earum odit ad culpa ducimus cum,
-        rem tenetur iusto veniam?
+      <Text>
+        I'm Julio Torres, a frontend developer specialized in javascript for its entire ecosystem.
       </Text>
+      <Text >social networks, and website</Text>
       <Socials/>
-      </Box>
+      </Flex>
     </Flex>
   )
 }

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Flex, Grid, Heading, Spinner } from '@chakra-ui/react'
+import { Flex, Grid, Heading, Spinner, Text } from '@chakra-ui/react'
 import Card from './Card'
 import Pagination from './pagination/Pagination'
 import { ResultsContext } from '../context/Resultscontext'
@@ -8,17 +8,12 @@ import { ResultsContext } from '../context/Resultscontext'
 
 const ContainerGrid = ({ characters }) => {
 
-  //  const {result,setResult} = useContext(ResultsContext)
   const [result, setResult] = useState({})
-
-  //  const {activePage} = result
+ // console.log(result);
 
   const [activePage, setActivePage] = useState(1)
 
-  //  console.log(activePage);
-
   useEffect(() => {
-    //(activePage);
     setResult({ loading: true })
     fetch(`https://rickandmortyapi.com/api/character/?page=${activePage}`)
       .then(res => res.ok ? res.json() : Promise.reject(true))
@@ -26,14 +21,9 @@ const ContainerGrid = ({ characters }) => {
         setResult({ ...result, error: false, loading: false, results: results, info })
       })
       .catch(err => {
-        //      console.log(err)
         setResult({ error: true, loading: false })
       })
   }, [activePage])
-
-  //  console.log();
-
-  //    const {result,setResult} = useContext(ResultsContext)
 
   const handleClick = (e) => {
     e.preventDefault();
@@ -68,6 +58,8 @@ const ContainerGrid = ({ characters }) => {
               activePage={activePage}
               pages={result.info.pages} />
           </Flex>
+
+          {result.info && <Text mt="2" textAlign="left" fontWeight="semibold">total: {result?.info.count}</Text>}
 
           <Grid templateColumns={["1fr ", "1fr 1fr ", "1fr 1fr 1fr", "1fr 1fr 1fr 1fr"]}
             gap={6} w="100%" mx="" my="20" overflowY="hidden" rowGap={8}>

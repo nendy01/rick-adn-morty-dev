@@ -1,5 +1,8 @@
-import { Badge, Box, Center, Grid, Heading, Image, Text } from '@chakra-ui/react'
+import { Badge, Box, Button, Heading, Icon, Image, Text, VStack } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
+
+import {CgArrowLeft} from 'react-icons/cg'
 
 import {getLocalstorage,setLocalstorage} from '../helpers/localstprage'
 
@@ -40,8 +43,11 @@ const OnlyCharacter = ({ character }) => {
       }, [])
 
       return (
-            <Center>
+            <VStack>
                   <Box textAlign="left" maxW="300px">
+                  <Button as={Link} to="/characters" mb="2">
+                  <Icon as={CgArrowLeft} fontSize="1rem" w="8" h="8" />
+                        back</Button>
                         <Image src={image} alt={name} w="300px" h="300px" bg="dark:black" />
                         <Heading as="h2" size="lg" my="4">{name}</Heading>
 
@@ -75,7 +81,7 @@ const OnlyCharacter = ({ character }) => {
                         }
                   </Box>
 
-            </Center>
+            </VStack>
       )
 }
 

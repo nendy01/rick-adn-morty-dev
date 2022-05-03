@@ -41,7 +41,7 @@ const idsCharacter = favorites.join(',')
   return (
     <Box flexGrow={1} mt="4">
       {favorites.length <= 0 ?
-       <Alert status='info'><AlertIcon />not characters</Alert> 
+       <Alert status='info'><AlertIcon />there are no characters</Alert> 
        : <>
       
         {charactersId.map(character => <RowCharacter character={character} key={character.id}

@@ -9,9 +9,9 @@ const itemRender = (current, type, element) => {
   return element;
 };
 
-const App = ({activePage,pages}) =>{
+const App = ({activePage}) =>{
 
-  const handleChange = (page) => console.log(page);
+  const handleChange = (page) => null
 
 return (
   <Pagination total={`420`} defaultCurrent="1"   current={activePage}  

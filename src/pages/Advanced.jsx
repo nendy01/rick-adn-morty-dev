@@ -3,7 +3,7 @@ import {
       Box, Button, ButtonGroup,
       Flex, FormControl, Icon, Input, InputGroup,
       InputLeftElement, Radio, RadioGroup, Select,
-      Stack,Text,useColorModeValue
+      Stack,Text,useColorModeValue,
 } from '@chakra-ui/react'
 
 import { CgArrowLeft, CgArrowRight } from 'react-icons/cg';
@@ -22,17 +22,15 @@ const Advanced = () => {
             "Poopybutthole", "Mythological", "Unknown",
             "Animal", "Disease","Robot","Cronenberg","Planet",
           ];
-
       let genders = ["female", "male", "genderless", "unknown"];
+
+      /* const reset = () =>{
+            setSearch({ status: "",name:"",gender:"",specie:"" })
+            window.location.reload()
+      }  */
 
       const bg = useColorModeValue('white', 'gray.800')
       const color = useColorModeValue('black', 'white')
-
-      const makeFetch = (url) => {
-            fetch(url)
-                  .then(res => res.ok ? res.json() : Promise.reject())
-                  .then(({ results, info }) => setResult({ results, info }))
-      }
 
       useEffect(() => {
             
@@ -68,38 +66,34 @@ const Advanced = () => {
                                     borderWidth="2px"
                                     borderColor="cyan.700"
                                     name='name'
-                                  /*   onKeyDown={(e) => setSearch({ ...search, name: e.target.value })} */
-                                    onChange={(e) => setSearch({ ...search, name: e.target.value })}
-                                    />
-
+                                    onChange={(e) => setSearch({ ...search, name: e.target.value })}/>
                         </InputGroup>
+                        <Text as="label" fontSize="medium" fontWeight="semibold">specie:</Text>
+                        <Select size='sm' placeholder='select specie' onChange={(e) => setSearch({...search,specie:e.target.value})}>
+                              {species.map(specie => <option value={specie} key={useId()}>{specie}</option>)}
+                        </Select>
                         <Text as="label" fontSize="medium" fontWeight="semibold">status:</Text>
                         <RadioGroup>
-                              <Stack direction='row'
+                              <Stack direction="row" 
                                     onChange={(e) => setSearch({ ...search, status: e.target.value })}>
                                     <Radio value='' defaultChecked>all</Radio>
                                     <Radio value='alive'>alive</Radio>
                                     <Radio value='dead'>dead</Radio>
                                     <Radio value='unknown'>unknown</Radio>
                               </Stack>
-
-
                         </RadioGroup>
+
                         <Text as="label" fontSize="medium" fontWeight="semibold">gender:</Text>
                         <RadioGroup>
-                              <Stack direction='row'
+                              <Stack direction={["column",,"row"]} pl="4"
                                     onChange={(e) => setSearch({ ...search, gender: e.target.value })}>
-                                    <Radio value='' defaultChecked>all</Radio>
+                                    <Radio value='' defaultChecked >all</Radio>
                                     {genders.map(gender => <Radio value={gender} key={useId()}>{gender}</Radio>)}
                               </Stack>
                         </RadioGroup>
-                        <Text as="label" fontSize="medium" fontWeight="semibold">specie:</Text>
-                        <Select size='sm' placeholder='select specie' onChange={(e) => setSearch({...search,specie:e.target.value})}>
-                            {/*   <option disabled selected>select specie</option> */} 
-                              {species.map(specie => <option value={specie} key={useId()}>{specie}</option>)}
-                        </Select>
-                       {/*  <Button mt={4} colorScheme='teal' type='submit'> Submit </Button> */}
                   </FormControl>
+
+                 {/*  <Button onClick={reset} mt="2">reset</Button> */}
 
                   {error && <Alert status='error' mt={4}><AlertIcon />{error}</Alert>}
 

@@ -10,7 +10,8 @@ const Footer = () => {
 
   return (
     <VStack as="footer" p="2" borderTopColor="cyan.700" borderTopWidth="4px" bg={bg} color={color}>
-        <Text fontWeight="semibold">Website create by <Text as="span" fontWeight="bold">@Julio Torres</Text></Text>
+        <Text fontWeight="semibold">Website create by <Text as="a" target="_blank" href='https://www.linkedin.com/in/juliotorres2001/'
+          fontWeight="bold">@Julio Torres</Text></Text>
         <Socials/>
     </VStack>
   )
